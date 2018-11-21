@@ -1,6 +1,6 @@
-package com.jinaiya.utils.Controller;
+package com.jinaiya.utils.controller;
 
-import com.jinaiya.utils.Model.ImageInfo;
+import com.jinaiya.utils.model.ImageInfo;
 import com.jinaiya.utils.service.ImageUploadService;
 import com.jinaiya.utils.service.ImageWatermarkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class WatermarkController {
         // 服务器上上传文件的相对路径
         String uploadPath = "static/images/";
         // 服务器上上传文件的物理路径
-//        String physicalUploadPath = getClass().getClassLoader().getResource(uploadPath).getPath();
+///        String physicalUploadPath = getClass().getClassLoader().getResource(uploadPath).getPath();
         String physicalUploadPath = "/Users/jin/Downloads";
 
         String imageURL = imageUploadService.uploadImage(image, uploadPath, physicalUploadPath);

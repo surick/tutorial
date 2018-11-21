@@ -1,4 +1,4 @@
-package com.jinaiya.utils.Model;
+package com.jinaiya.utils.model;
 
 /**
  * @author Jin

@@ -13,12 +13,12 @@ import java.util.Date;
 @Component
 public class Sender {
     @Autowired
-    private AmqpTemplate rabbitTemplcate;
+    private AmqpTemplate rabbitTemplate;
 
     public void send() {
-        String context = "hello " + new Date();
+        String context = "hello surick, now is " + new Date();
         System.out.println("Sender: " + context);
-        this.rabbitTemplcate.convertAndSend("hello", context);
+        this.rabbitTemplate.convertAndSend("dingtalk_service_status_change", context);
     }
 
 }

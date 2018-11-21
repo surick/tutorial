@@ -1,6 +1,6 @@
 package com.jinaiya.utils.service.impl;
 
-import com.jinaiya.utils.Model.Const;
+import com.jinaiya.utils.model.Const;
 import com.jinaiya.utils.service.ImageWatermarkService;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
