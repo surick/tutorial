@@ -1,5 +1,6 @@
 package com.jinaiya.utils.amqp;
 
+import com.jinaiya.utils.model.Const;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ public class Sender {
     public void send() {
         String context = "hello surick, now is " + new Date();
         System.out.println("Sender: " + context);
-        this.rabbitTemplate.convertAndSend("dingtalk_service_status_change", context);
+        this.rabbitTemplate.convertAndSend(Const.DING_TALK_QUEUE, context);
     }
 
 }

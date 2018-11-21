@@ -1,6 +1,7 @@
 package com.jinaiya.utils.amqp;
 
 import com.jinaiya.utils.handler.DingTalkMessageHandler;
+import com.jinaiya.utils.model.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @date 2018/11/20
  */
 @Component
-@RabbitListener(queues = "dingtalk_service_status_change")
+@RabbitListener(queues = Const.DING_TALK_QUEUE)
 public class Receiver {
     protected static final Logger logger = LoggerFactory.getLogger(Receiver.class);
 

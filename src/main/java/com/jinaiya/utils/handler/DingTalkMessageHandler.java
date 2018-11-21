@@ -1,6 +1,7 @@
 package com.jinaiya.utils.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.jinaiya.utils.model.Const;
 import com.jinaiya.utils.model.DingTalkMsgTemplate;
 import com.xiaoleilu.hutool.http.HttpUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
@@ -18,9 +19,9 @@ public class DingTalkMessageHandler {
     protected static final Logger logger = LoggerFactory.getLogger(DingTalkMessageHandler.class);
 
     public boolean process(String text) {
-        String webhook = "https://oapi.dingtalk.com/robot/send?access_token=49535a2ddc40daa276497b704a30da9e496d05e10155f6d0239b1e4fb7902ecb";
+        String webhook = Const.DING_TALK_WEBHOOK;
         if (StrUtil.isBlank(webhook)) {
-            logger.error("dingding config error, webhook is blank-->{}", webhook);
+            logger.error("ding config error, webhook is blank-->{}", webhook);
             return false;
         }
 
