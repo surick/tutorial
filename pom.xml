@@ -11,6 +11,14 @@
 	<name>utils</name>
 	<description>Demo project for Spring Boot</description>
 
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>Nexus aliyun</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/ </url>
+		</repository>
+	</repositories>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -68,6 +76,19 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.github.qcloudsms</groupId>
+			<artifactId>qcloudsms</artifactId>
+			<version>1.0.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.1.2.Final</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
