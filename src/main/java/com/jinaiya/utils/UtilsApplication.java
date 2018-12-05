@@ -31,8 +31,6 @@ public class UtilsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UtilsApplication.class, args);
 
-		new WebSocketServer("127.0.0.1", 9999).start();
-
 		BotLogger.setLevel(Level.ALL);
 		BotLogger.registerLogger(new ConsoleHandler());
 		try {
@@ -46,20 +44,22 @@ public class UtilsApplication {
 			TelegramBotsApi telegramBotsApi = createTelegramBotsApi();
 			try {
 				// Register long polling bots. They work regardless type of TelegramBotsApi we are creating
-				telegramBotsApi.registerBot(new ChannelHandlers());
-				telegramBotsApi.registerBot(new DirectionsHandlers());
-				telegramBotsApi.registerBot(new RaeHandlers());
-				telegramBotsApi.registerBot(new WeatherHandlers());
-				telegramBotsApi.registerBot(new TransifexHandlers());
+//				telegramBotsApi.registerBot(new ChannelHandlers());
+//				telegramBotsApi.registerBot(new DirectionsHandlers());
+//				telegramBotsApi.registerBot(new RaeHandlers());
+//				telegramBotsApi.registerBot(new WeatherHandlers());
+//				telegramBotsApi.registerBot(new TransifexHandlers());
 				telegramBotsApi.registerBot(new FilesHandlers());
-				telegramBotsApi.registerBot(new CommandsHandler(BotConfig.COMMANDS_USER));
-				telegramBotsApi.registerBot(new ElektrollArtFanHandler());
+//				telegramBotsApi.registerBot(new CommandsHandler(BotConfig.COMMANDS_USER));
+//				telegramBotsApi.registerBot(new ElektrollArtFanHandler());
 			} catch (TelegramApiException e) {
 				BotLogger.error(LOGTAG, e);
 			}
 		} catch (Exception e) {
 			BotLogger.error(LOGTAG, e);
 		}
+
+		new WebSocketServer("127.0.0.1", 9999).start();
 	}
 
 	private static TelegramBotsApi createTelegramBotsApi() throws TelegramApiException {

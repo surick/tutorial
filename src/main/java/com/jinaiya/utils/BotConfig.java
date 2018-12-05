@@ -13,7 +13,7 @@ public class BotConfig {
     public static final String TRANSIFEX_TOKEN = "<token>";
     public static final String TRANSIFEX_USER = "TGlanguagesbot";
 
-    public static final String FILES_TOKEN = "<token>";
+    public static final String FILES_TOKEN = "752868168:AAHFHGcJWEUUb_oZmTLU7Lx8FFfv1WewnzI";
     public static final String FILES_USER = "filesbot";
 
     public static final String DIRECTIONS_TOKEN = "<token>";

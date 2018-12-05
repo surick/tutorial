@@ -18,7 +18,7 @@ public class CronTasks {
     @Autowired
     private Sender sender;
 
-    @Scheduled(cron = "0/30 * * * * ?")
+//    @Scheduled(cron = "0/30 * * * * ?")
     public void cronSender() {
         sender.send();
         logger.info("ok!");

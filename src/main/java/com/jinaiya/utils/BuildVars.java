@@ -30,10 +30,10 @@ public class BuildVars {
 
     public static final String pathToLogs = "./";
 
-    public static final String linkDB = "jdbc:mysql://localhost:3306/YOURDATABSENAME?useUnicode=true&characterEncoding=UTF-8";
+    public static final String linkDB = "jdbc:mysql://localhost:3306/telegram_bot?useUnicode=true&characterEncoding=UTF-8";
     public static final String controllerDB = "com.mysql.cj.jdbc.Driver";
-    public static final String userDB = "<your-database-user>";
-    public static final String password = "<your-databas-user-password>";
+    public static final String userDB = "root";
+    public static final String password = "root1234";
 
     static {
         // Add elements to ADMIN array here
