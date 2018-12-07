@@ -3,7 +3,6 @@ package com.jinaiya.utils.controller;
 import com.jinaiya.utils.utils.AliyunOSSUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +23,6 @@ public class AliyunOSSController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private AliyunOSSUtil aliyunOSSUtil;
-
     @RequestMapping("/root")
     public String index() {
         return "index";
@@ -41,8 +37,7 @@ public class AliyunOSSController {
     @ResponseBody
     public String testUpload() {
         File file = new File("/Users/jin/Download/test.jpg");
-        AliyunOSSUtil aliyunOSSUtil = new AliyunOSSUtil();
-        String url = aliyunOSSUtil.upLoad(file);
+        String url = AliyunOSSUtil.upLoad(file);
         System.out.println(url);
         return "success";
     }
@@ -52,8 +47,7 @@ public class AliyunOSSController {
     @RequestMapping("/testDownload")
     @ResponseBody
     public String testDownload() {
-        AliyunOSSUtil aliyunOSSUtil = new AliyunOSSUtil();
-        aliyunOSSUtil.downloadFile(
+        AliyunOSSUtil.downloadFile(
                 "test/2018-12-04/e3f892c27f07462a864a43b8187d4562-rawpixel-600782-unsplash.jpg","E:/Picture/e3f892c27f07462a864a43b8187d4562-rawpixel-600782-unsplash.jpg");
         return "success";
     }
@@ -63,8 +57,7 @@ public class AliyunOSSController {
     @RequestMapping("/testListFile")
     @ResponseBody
     public String testListFile() {
-        AliyunOSSUtil aliyunOSSUtil = new AliyunOSSUtil();
-        aliyunOSSUtil.listFile();
+        AliyunOSSUtil.listFile();
         return "success";
     }
 
@@ -86,7 +79,7 @@ public class AliyunOSSController {
                     os.close();
                     file.transferTo(newFile);
                     // 上传到OSS
-                    String uploadUrl = aliyunOSSUtil.upLoad(newFile);
+                    String uploadUrl = AliyunOSSUtil.upLoad(newFile);
                     model.addAttribute("url",uploadUrl);
                 }
 

@@ -7,7 +7,6 @@ import com.aliyun.oss.model.*;
 import com.jinaiya.utils.model.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -21,7 +20,6 @@ import java.util.UUID;
  * @author Jin
  * @date 2018/12/7
  */
-@Component
 public class AliyunOSSUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(AliyunOSSUtil.class);

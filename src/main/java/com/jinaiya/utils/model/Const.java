@@ -21,7 +21,7 @@ public class Const {
     /**
      * 地域节点
      */
-    public static final String END_POINT = "oss-cn-shanghai.aliyuncs.com";
+    public static final String END_POINT = "";
 
     public static final String ACCESSKEY_ID = "";
 
@@ -30,4 +30,16 @@ public class Const {
      * 仓库中某个文件夹
      */
     public static final String FILE_HOST = "test";
+
+
+    /**
+     * tx cos
+     */
+    public static final String SECRET_ID = "";
+
+    public static final String SECRET_KEY = "";
+
+    public static final String REGION = "";
+
+    public static final String TX_BUCKET_NAME = "";
 }
