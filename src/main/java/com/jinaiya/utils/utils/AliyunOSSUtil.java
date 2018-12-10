@@ -10,11 +10,14 @@ import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author Jin
@@ -31,6 +34,64 @@ public class AliyunOSSUtil {
     private static String accessKeySecret = Const.ACCESSKEY_SECRET;
     private static String fileHost = Const.FILE_HOST;
 
+
+    public static  OSSClient getOSSClient(){
+        return new OSSClient(endpoint, accessKeyId, accessKeySecret);
+    }
+
+    /**
+     * 创建存储空间
+     *
+     * @param ossClient  OSS连接
+     * @param bucketName 存储空间
+     * @return
+     */
+    public static String createBucketName(OSSClient ossClient, String bucketName) {
+        //存储空间
+        final String bucketNames = bucketName;
+        if (!ossClient.doesBucketExist(bucketName)) {
+            //创建存储空间
+            Bucket bucket = ossClient.createBucket(bucketName);
+            logger.info("创建存储空间成功");
+            return bucket.getName();
+        }
+        return bucketNames;
+    }
+
+    /**
+     * 删除存储空间buckName
+     *
+     * @param ossClient  oss对象
+     * @param bucketName 存储空间
+     */
+    public static void deleteBucket(OSSClient ossClient, String bucketName) {
+        ossClient.deleteBucket(bucketName);
+        logger.info("删除" + bucketName + "Bucket成功");
+    }
+
+    /**
+     * 创建模拟文件夹
+     *
+     * @param ossClient  oss连接
+     * @param bucketName 存储空间
+     * @param folder     模拟文件夹名如"qj_nanjing/"
+     * @return 文件夹名
+     */
+    public static String createFolder(OSSClient ossClient, String bucketName, String folder) {
+        //文件夹名
+        final String keySuffixWithSlash = folder;
+        //判断文件夹是否存在，不存在则创建
+        if (!ossClient.doesObjectExist(bucketName, keySuffixWithSlash)) {
+            //创建文件夹
+            ossClient.putObject(bucketName, keySuffixWithSlash, new ByteArrayInputStream(new byte[0]));
+            logger.info("创建文件夹成功");
+            //得到文件夹名
+            OSSObject object = ossClient.getObject(bucketName, keySuffixWithSlash);
+            String fileDir = object.getKey();
+            return fileDir;
+        }
+        return keySuffixWithSlash;
+    }
 
     /**
      * 上传文件。
@@ -115,27 +176,46 @@ public class AliyunOSSUtil {
     /**
      * 列举 test 文件下所有的文件
      */
-    public static void listFile() {
+    public static List listFile() {
         // 创建OSSClient实例。
         OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
-        // 构造ListObjectsRequest请求。
-        ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName);
+        try {
+            ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName);
 
-        // 设置prefix参数来获取fun目录下的所有文件。
-        listObjectsRequest.setPrefix("test/");
-        // 列出文件。
-        ObjectListing listing = ossClient.listObjects(listObjectsRequest);
-        // 遍历所有文件。
-        System.out.println("Objects:");
-        for (OSSObjectSummary objectSummary : listing.getObjectSummaries()) {
-            System.out.println(objectSummary.getKey());
+            // 设置prefix参数来获取fun目录下的所有文件。
+            listObjectsRequest.setPrefix("test/");
+            // 列出文件。
+            ObjectListing listing = ossClient.listObjects(listObjectsRequest);
+            return listing.getObjectSummaries().stream()
+                    .filter(item -> item.getKey().lastIndexOf(".") > 0)
+                    .map(item -> "https://insonaimage.oss-cn-beijing.aliyuncs.com/" + item.getKey())
+                    .collect(Collectors.toList());
+            // 遍历所有文件。
+//            System.out.println("Objects:");
+//            for (OSSObjectSummary objectSummary : listing.getObjectSummaries()) {
+//                System.out.println(objectSummary.getKey());
+//            }
+            // 遍历所有commonPrefix。
+//            System.out.println("CommonPrefixes:");
+//            for (String commonPrefix : listing.getCommonPrefixes()) {
+//                System.out.println(commonPrefix);
+//            }
+        } finally {
+            // 关闭OSSClient。
+            ossClient.shutdown();
         }
-        // 遍历所有commonPrefix。
-        System.out.println("CommonPrefixes:");
-        for (String commonPrefix : listing.getCommonPrefixes()) {
-            System.out.println(commonPrefix);
-        }
-        // 关闭OSSClient。
-        ossClient.shutdown();
+    }
+
+    /**
+     * 根据key删除OSS服务器上的文件
+     *
+     * @param bucketName 存储空间
+     * @param folder     模拟文件夹名 如"qj_nanjing/"
+     * @param key        Bucket下的文件的路径名+文件名 如："upload/cake.jpg"
+     */
+    public static void deleteFile(String bucketName, String folder, String key) {
+        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+        ossClient.deleteObject(bucketName, folder + key);
+        logger.info("删除" + bucketName + "下的文件" + folder + key + "成功");
     }
 }
