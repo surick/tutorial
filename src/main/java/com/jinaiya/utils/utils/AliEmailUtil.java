@@ -44,8 +44,7 @@ public class AliEmailUtil {
             SingleSendMailResponse httpResponse = client.getAcsResponse(request);
         } catch (ServerException e) {
             e.printStackTrace();
-        }
-        catch (ClientException e) {
+        } catch (ClientException e) {
             e.printStackTrace();
         }
     }
