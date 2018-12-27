@@ -1,7 +1,7 @@
 package com.jinaiya.tutorials.controller;
 
 import com.jinaiya.tutorials.model.User;
-import com.jinaiya.tutorials.Repository.UserRepository;
+import com.jinaiya.tutorials.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.jinaiya.tutorials.Repository;
+package com.jinaiya.tutorials.repository;
 
 import com.jinaiya.tutorials.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
