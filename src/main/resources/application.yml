@@ -5,7 +5,11 @@ spring:
   application:
     name: utils
   rabbitmq:
-    host: localhost
+    host: 111.231.93.42
     port: 5672
     username: guest
     password: guest
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017
+      database: test
