@@ -3,12 +3,12 @@ server:
 
 spring:
   application:
-    name: utils
+    name: tutorials
   rabbitmq:
     host: 111.231.93.42
     port: 5672
-    username: guest
-    password: guest
+    username: root
+    password: surick
   data:
     mongodb:
       uri: mongodb://127.0.0.1:27017
