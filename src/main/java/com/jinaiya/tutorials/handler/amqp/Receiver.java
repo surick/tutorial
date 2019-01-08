@@ -22,10 +22,12 @@ public class Receiver {
     private DingTalkMessageHandler dingTalkMessageHandler;
 
     @RabbitHandler
-    public void process(String hello) {
+    public void process(String content) {
         long startTime = System.currentTimeMillis();
-        logger.info("msg bus receive --> {}", hello);
-        dingTalkMessageHandler.process(hello);
+        logger.info("msg bus receive --> {}", content);
+
+        dingTalkMessageHandler.process(content);
+
         long useTime = System.currentTimeMillis() - startTime;
         logger.info("process ok, cost ---> {}", useTime);
     }
