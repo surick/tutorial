@@ -18,7 +18,7 @@ public class AliEmailUtil {
     public static final String ACCESS_KEY = "";
     public static final String SECRET_KEY = "";
 
-    public static void sendEmail() {
+    public static void sendEmail(String text) {
         // 如果是除杭州region外的其它region（如新加坡、澳洲Region），需要将下面的"cn-hangzhou"替换为"ap-southeast-1"、或"ap-southeast-2"。
         IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", ACCESS_KEY, SECRET_KEY);
         // 如果是除杭州region外的其它region（如新加坡region）， 需要做如下处理
@@ -36,11 +36,11 @@ public class AliEmailUtil {
             request.setAddressType(1);
             request.setTagName("TEST");
             request.setReplyToAddress(true);
-            request.setToAddress("jk103@qq.com");
+            request.setToAddress("jk103@qq.com, godcoder1996@gmail.com");
             //可以给多个收件人发送邮件，收件人之间用逗号分开，批量发信建议使用BatchSendMailRequest方式
             //request.setToAddress("邮箱1,邮箱2");
-            request.setSubject("邮件主题");
-            request.setHtmlBody("邮件正文");
+            request.setSubject("每日新闻");
+            request.setHtmlBody(text);
             SingleSendMailResponse httpResponse = client.getAcsResponse(request);
         } catch (ServerException e) {
             e.printStackTrace();
@@ -50,6 +50,6 @@ public class AliEmailUtil {
     }
 
     public static void main(String[] args) {
-        sendEmail();
+        sendEmail("s");
     }
 }

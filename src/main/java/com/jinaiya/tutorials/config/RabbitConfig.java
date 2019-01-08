@@ -16,4 +16,8 @@ public class RabbitConfig {
         return new Queue(Const.DING_TALK_QUEUE);
     }
 
+    @Bean
+    public Queue emailQueue() {
+        return new Queue(Const.EMAIL_QUEUE);
+    }
 }

@@ -32,6 +32,27 @@ public class NewsSender {
                             + "\n作者：" + item.getAuthorName()
                             + "\n内容：" + item.getUrl()
                             + "\n日期：" + item.getDate()));
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 5; i++) {
+            sb.append(
+                    "标题：" + list.get(i).getTitle() +
+                            "\n作者：" + list.get(i).getAuthorName() +
+                            "\n内容：" + list.get(i).getUrl() +
+                            "\n日期：" + list.get(i).getDate() +
+                            "\n------------------------");
+        }
+
+//        list.stream()
+//                .forEach(item -> sb.append(
+//                                "标题：" + item.getTitle() +
+//                                "\n作者：" + item.getAuthorName() +
+//                                "\n内容：" + item.getUrl() +
+//                                "\n日期：" + item.getDate() +
+//                                "\n------------------------"));
+
+        this.rabbitTemplate.convertAndSend(Const.EMAIL_QUEUE, sb.toString());
+
         logger.info("send news count-->{}", list.size());
     }
 }

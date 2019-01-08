@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
  * @date 2018/11/20
  */
 @Component
-@RabbitListener(queues = Const.DING_TALK_QUEUE)
 public class Receiver {
     protected static final Logger logger = LoggerFactory.getLogger(Receiver.class);
 
     @Autowired
     private DingTalkMessageHandler dingTalkMessageHandler;
 
+    @RabbitListener(queues = Const.DING_TALK_QUEUE)
     @RabbitHandler
     public void process(String content) {
         long startTime = System.currentTimeMillis();

@@ -7,6 +7,9 @@ package com.jinaiya.tutorials.config;
 public class Const {
 
     public static final String DING_TALK_QUEUE = "dingtalk_service_status_change";
+
+    public static final String EMAIL_QUEUE = "ALI_EMAIL";
+
     public static final String DING_TALK_WEBHOOK = "https://oapi.dingtalk.com/robot/send?access_token=49535a2ddc40daa276497b704a30da9e496d05e10155f6d0239b1e4fb7902ecb";
 
     /**
