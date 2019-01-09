@@ -16,8 +16,8 @@ import java.util.List;
  * @author Jin
  * @date 2019/1/8
  */
-public class NewsUtils {
-    protected static final Logger logger = LoggerFactory.getLogger(NewsUtils.class);
+public class NewsUtil {
+    protected static final Logger logger = LoggerFactory.getLogger(NewsUtil.class);
 
     /**
      * 新闻api免费获取地址：
@@ -40,7 +40,7 @@ public class NewsUtils {
             List<News> list = JSON.parseArray(res.getJSONObject("result").get("data").toString(), News.class);
             return list;
         } catch (Exception e) {
-            logger.error("NewsUtils getNews error ---> {}", e);
+            logger.error("NewsUtil getNews error ---> {}", e);
         }
         return null;
     }

@@ -2,7 +2,7 @@ package com.jinaiya.tutorials.handler.amqp;
 
 import com.jinaiya.tutorials.config.Const;
 import com.jinaiya.tutorials.model.News;
-import com.jinaiya.tutorials.utils.NewsUtils;
+import com.jinaiya.tutorials.utils.NewsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -25,7 +25,7 @@ public class NewsSender {
     private AmqpTemplate rabbitTemplate;
 
     public void sendNews(String type) throws IOException {
-        List<News> list = NewsUtils.getNews(type);
+        List<News> list = NewsUtil.getNews(type);
         list.stream()
                 .forEach(item -> this.rabbitTemplate.convertAndSend(Const.DING_TALK_QUEUE,
                         "标题：" + item.getTitle()
@@ -35,23 +35,31 @@ public class NewsSender {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < 5; i++) {
-            sb.append(
-                    "标题：" + list.get(i).getTitle() +
-                            "\n作者：" + list.get(i).getAuthorName() +
-                            "\n内容：" + list.get(i).getUrl() +
-                            "\n日期：" + list.get(i).getDate() +
-                            "\n------------------------");
+            sb.append("<p><img src=" + list.get(i).getThumbnailPics()
+                    + "></p><p>标题：" + list.get(i).getTitle()
+                    + "</p><p>作者：" + list.get(i).getAuthorName()
+                    + "</p><p>内容：" + list.get(i).getUrl()
+                    + "</p><p>日期：" + list.get(i).getDate()
+                    + "</p>------------------------------------------------------");
         }
 
-//        list.stream()
-//                .forEach(item -> sb.append(
-//                                "标题：" + item.getTitle() +
-//                                "\n作者：" + item.getAuthorName() +
-//                                "\n内容：" + item.getUrl() +
-//                                "\n日期：" + item.getDate() +
-//                                "\n------------------------"));
-
         this.rabbitTemplate.convertAndSend(Const.EMAIL_QUEUE, sb.toString());
+
+        StringBuilder wxNews = new StringBuilder();
+        for (int i = 0; i < 15; i++) {
+            wxNews.append("![img](" + list.get(i).getThumbnailPics() + ")"
+                    + "\n [" + list.get(i).getTitle() + "](" + list.get(i).getUrl() + ")"
+                    + "\n " + list.get(i).getAuthorName());
+        }
+//        list.stream()
+//                .forEach(item -> wxNews.append("![img](" + item.getThumbnailPics() + ")"
+//                        + "- " + item.getTitle()
+//                        + "- " + item.getUrl()
+//                        + "- " + item.getAuthorName()
+//                        + "- " + item.getDate()
+//                        + "---"
+//                ));
+        this.rabbitTemplate.convertAndSend(Const.WX_QUEUE, wxNews.toString());
 
         logger.info("send news count-->{}", list.size());
     }

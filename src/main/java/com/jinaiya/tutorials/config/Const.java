@@ -10,6 +10,8 @@ public class Const {
 
     public static final String EMAIL_QUEUE = "ALI_EMAIL";
 
+    public static final String WX_QUEUE = "WX_PUSH";
+
     public static final String DING_TALK_WEBHOOK = "https://oapi.dingtalk.com/robot/send?access_token=49535a2ddc40daa276497b704a30da9e496d05e10155f6d0239b1e4fb7902ecb";
 
     /**

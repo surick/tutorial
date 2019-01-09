@@ -36,7 +36,7 @@ public class AliEmailUtil {
             request.setAddressType(1);
             request.setTagName("TEST");
             request.setReplyToAddress(true);
-            request.setToAddress("jk103@qq.com, godcoder1996@gmail.com");
+            request.setToAddress("root@jinaiya.com");
             //可以给多个收件人发送邮件，收件人之间用逗号分开，批量发信建议使用BatchSendMailRequest方式
             //request.setToAddress("邮箱1,邮箱2");
             request.setSubject("每日新闻");
