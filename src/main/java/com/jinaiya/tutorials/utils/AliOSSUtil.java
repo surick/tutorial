@@ -13,7 +13,10 @@ import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
  * @author Jin
  * @date 2018/12/7
  */
+@SuppressWarnings(value = "unused")
 public class AliOSSUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(AliOSSUtil.class);
@@ -35,7 +39,7 @@ public class AliOSSUtil {
     private static String fileHost = Const.FILE_HOST;
 
 
-    public static  OSSClient getOSSClient(){
+    public static OSSClient getOSSClient(){
         return new OSSClient(endpoint, accessKeyId, accessKeySecret);
     }
 
@@ -94,8 +98,7 @@ public class AliOSSUtil {
     }
 
     /**
-     * 上传文件。
-     *
+     * 上传文件
      * @param file 需要上传的文件路径
      * @return 如果上传的文件是图片的话，会返回图片的"URL"，如果非图片的话会返回"非图片，不可预览。文件路径为：+文件路径"
      */
@@ -110,7 +113,7 @@ public class AliOSSUtil {
             e.printStackTrace();
         }
 
-        logger.info("------OSS文件上传开始--------" + file.getName());
+        logger.info("------OSS upload--------" + file.getName());
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String dateStr = format.format(new Date());
@@ -131,7 +134,8 @@ public class AliOSSUtil {
             }
             // 设置文件路径和名称
             String fileUrl = fileHost + "/" + (dateStr + "/" + UUID.randomUUID().toString().replace("-", "") + "-" + file.getName());
-            if (isImage) {//如果是图片，则图片的URL为：....
+
+            if (isImage) {
                 FILE_URL = "https://" + bucketName + "." + endpoint + "/" + fileUrl;
             } else {
                 FILE_URL = "非图片，不可预览。文件路径为：" + fileUrl;
@@ -142,7 +146,7 @@ public class AliOSSUtil {
             // 设置权限(公开读)
             ossClient.setBucketAcl(bucketName, CannedAccessControlList.PublicRead);
             if (result != null) {
-                logger.info("------OSS文件上传成功------" + fileUrl);
+                logger.info("------OSS upload success------" + fileUrl);
             }
         } catch (OSSException oe) {
             logger.error(oe.getMessage());
@@ -165,11 +169,11 @@ public class AliOSSUtil {
      */
     public static void downloadFile(String objectName, String localFileName) {
 
-        // 创建OSSClient实例。
+        // 创建OSSClient实例
         OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
-        // 下载OSS文件到本地文件。如果指定的本地文件存在会覆盖，不存在则新建。
+        // 下载OSS文件到本地文件。如果指定的本地文件存在会覆盖，不存在则新建
         ossClient.getObject(new GetObjectRequest(bucketName, objectName), new File(localFileName));
-        // 关闭OSSClient。
+        // 关闭OSSClient
         ossClient.shutdown();
     }
 
@@ -182,15 +186,15 @@ public class AliOSSUtil {
         try {
             ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName);
 
-            // 设置prefix参数来获取fun目录下的所有文件。
+            // 设置prefix参数来获取fun目录下的所有文件
             listObjectsRequest.setPrefix("test/");
-            // 列出文件。
+            // 列出文件
             ObjectListing listing = ossClient.listObjects(listObjectsRequest);
             return listing.getObjectSummaries().stream()
                     .filter(item -> item.getKey().lastIndexOf(".") > 0)
                     .map(item -> "https://insonaimage.oss-cn-beijing.aliyuncs.com/" + item.getKey())
                     .collect(Collectors.toList());
-            // 遍历所有文件。
+            // 遍历所有文件
 //            System.out.println("Objects:");
 //            for (OSSObjectSummary objectSummary : listing.getObjectSummaries()) {
 //                System.out.println(objectSummary.getKey());
@@ -218,4 +222,128 @@ public class AliOSSUtil {
         ossClient.deleteObject(bucketName, folder + key);
         logger.info("删除" + bucketName + "下的文件" + folder + key + "成功");
     }
+
+    /**
+     *
+     * @Title: uploadByNetworkStream
+     * @Description: 通过网络流上传文件
+     * @param ossClient 	oss客户端
+     * @param url 			URL
+     * @param bucketName 	bucket名称
+     * @param objectName 	上传文件目录和（包括文件名）例如“test/index.html”
+     * @return void 		返回类型
+     * @throws
+     */
+    public static void uploadByNetworkStream(OSSClient ossClient, URL url, String bucketName, String objectName) {
+        try {
+            InputStream inputStream = url.openStream();
+            ossClient.putObject(bucketName, objectName, inputStream);
+            ossClient.shutdown();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (ossClient != null) {
+                ossClient.shutdown();
+            }
+        }
+    }
+
+    /**
+     *
+     * @Title: uploadByInputStream
+     * @Description: 通过输入流上传文件
+     * @param ossClient 	oss客户端
+     * @param inputStream 	输入流
+     * @param bucketName 	bucket名称
+     * @param objectName 	上传文件目录和（包括文件名） 例如“test/a.jpg”
+     * @return void 		返回类型
+     * @throws
+     */public static void uploadByInputStream(OSSClient ossClient, InputStream inputStream, String bucketName,
+                                              String objectName) {
+        try {
+            ossClient.putObject(bucketName, objectName, inputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *
+     * @Title: uploadByFile
+     * @Description: 通过file上传文件
+     * @param ossClient 	oss客户端
+     * @param file 			上传的文件
+     * @param bucketName 	bucket名称
+     * @param objectName 	上传文件目录和（包括文件名） 例如“test/a.jpg”
+     * @return void 		返回类型
+     * @throws
+     */
+    public static void uploadByFile(OSSClient ossClient, File file, String bucketName, String objectName) {
+        try {
+            ossClient.putObject(bucketName, objectName, file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *
+     * @Title: deleteFile
+     * @Description: 根据key删除oss服务器上的文件
+     * @param ossClient		oss客户端
+     * @param bucketName		bucket名称
+     * @param key    		文件路径/名称，例如“test/a.txt”
+     * @return void    		返回类型
+     * @throws
+     */
+    public static void deleteFile(OSSClient ossClient, String bucketName, String key) {
+        ossClient.deleteObject(bucketName, key);
+    }
+
+    /**
+     *
+     * @Title: getInputStreamByOSS
+     * @Description:根据key获取服务器上的文件的输入流
+     * @param ossClient 	oss客户端
+     * @param bucketName 	bucket名称
+     * @param key 			文件路径和名称
+     * @return InputStream 	文件输入流
+     * @throws
+     */
+    public static InputStream getInputStreamByOSS(OSSClient ossClient, String bucketName, String key) {
+        InputStream content = null;
+        try {
+            OSSObject ossObj = ossClient.getObject(bucketName, key);
+            content = ossObj.getObjectContent();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return content;
+    }
+
+    /**
+     *
+     * @Title: queryAllObject
+     * @Description: 查询某个bucket里面的所有文件
+     * @param ossClient		oss客户端
+     * @param bucketName		bucket名称
+     * @return List<String>  文件路径和大小集合
+     * @throws
+     */
+    public static List<String> queryAllObject(OSSClient ossClient, String bucketName) {
+        List<String> results = new ArrayList<String>();
+        try {
+            // ossClient.listObjects返回ObjectListing实例，包含此次listObject请求的返回结果。
+            ObjectListing objectListing = ossClient.listObjects(bucketName);
+            // objectListing.getObjectSummaries获取所有文件的描述信息。
+            for (OSSObjectSummary objectSummary : objectListing.getObjectSummaries()) {
+                // objectSummary.getSize();
+                results.add(objectSummary.getKey());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
+
 }

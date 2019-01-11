@@ -30,7 +30,7 @@ public class DouyuApi {
                 return "房间号：" + room + " 正在直播，点击 " + TARGET_URL.replace("{room}", room) + " 访问！";
             }
 
-            return "房间号：" + room + "没有直播！";
+            return "房间号：" + room + " 没有直播！";
         } catch (Exception e) {
             logger.error("douyu api error --> {}", e);
             return "网络异常";
