@@ -34,7 +34,7 @@ public class NewsSender {
                             + "\n日期：" + item.getDate()));
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             sb.append("<p><img src=" + list.get(i).getThumbnailPics()
                     + "></p><p>标题：" + list.get(i).getTitle()
                     + "</p><p>作者：" + list.get(i).getAuthorName()
@@ -48,8 +48,8 @@ public class NewsSender {
         StringBuilder wxNews = new StringBuilder();
         for (int i = 0; i < 15; i++) {
             wxNews.append("![img](" + list.get(i).getThumbnailPics() + ")"
-                    + "\n [" + list.get(i).getTitle() + "](" + list.get(i).getUrl() + ")"
-                    + "\n " + list.get(i).getAuthorName());
+                    + "\n\n [" + list.get(i).getTitle() + "](" + list.get(i).getUrl() + ")"
+                    + "\n\n " + list.get(i).getAuthorName());
         }
 //        list.stream()
 //                .forEach(item -> wxNews.append("![img](" + item.getThumbnailPics() + ")"
@@ -59,7 +59,7 @@ public class NewsSender {
 //                        + "- " + item.getDate()
 //                        + "---"
 //                ));
-        this.rabbitTemplate.convertAndSend(Const.WX_QUEUE, wxNews.toString());
+//        this.rabbitTemplate.convertAndSend(Const.WX_QUEUE, wxNews.toString());
 
         logger.info("send news count-->{}", list.size());
     }

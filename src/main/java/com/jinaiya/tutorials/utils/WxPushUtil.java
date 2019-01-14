@@ -45,8 +45,8 @@ public class WxPushUtil {
                     .Builder()
                     .url(URL
                             .replace("{sendkey}", DRINK_SENDKEY)
-                            .replace("{text}", "大郎喝水啦づ￣3￣）づ╭❤～")
-                            .replace("{desp}", "![img](https://s2.ax1x.com/2019/01/09/FL5Ohj.jpg)"))
+                            .replace("{text}", "喝水啦")
+                            .replace("{desp}", "![img](https://s2.ax1x.com/2019/01/09/FL5Ohj.jpg)\n\nづ￣3￣）づ╭❤～"))
                     .build();
             Response response = client.newCall(request).execute();
             logger.info("response --->{}", response.body().string());
