@@ -29,7 +29,7 @@ package com.jinaiya.tutorials.algorithm;
  */
 public class DeleteNodeinaLinkedList {
 
-    public class ListNode {
+    class ListNode {
         int val;
         ListNode next;
         ListNode(int x) { val = x; }
