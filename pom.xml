@@ -33,7 +33,7 @@
 		<fastjson.version>1.2.46</fastjson.version>
 		<hutool.version>3.3.2</hutool.version>
 		<commons-io.version>2.6</commons-io.version>
-		<httpcompontents.version>4.5.3</httpcompontents.version>
+		<httpcompontents.version>4.5.13</httpcompontents.version>
 		<telegrambots.version>4.0.1</telegrambots.version>
 		<json.version>20160810</json.version>
 		<jsoup.version>1.10.2</jsoup.version>
